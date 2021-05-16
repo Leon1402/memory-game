@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from 'react-router';
+import { StartField } from './StartField/StartField';
+import { GameContainer } from './Game/Game';
+import { connect } from 'react-redux';
+import { startTimer, changeName, addResult } from './redux/reduxStore';
+import { Link } from 'react-router-dom';
+import { Results } from './Results/Results';
+import { StopGame } from './Game/Card/StopGame/StopGame';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='container'>
+        <Switch>
+          <Route exact path='/'>
+            <StartField name={props.name} changeName={props.changeName} />
+          </Route>
+          <Route path='/game'>
+            <GameContainer startTimer={props.startTimer} timer={props.timer}
+              addResult={props.addResult} />
+          </Route>
+
+          <Route path='/stop'>
+            <StopGame timer={props.timer}/>
+          </Route>
+
+          <Route path='/results'>
+            <Results results={props.results} />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => state
+
+export default connect(mapStateToProps, { startTimer, changeName, addResult })(App);

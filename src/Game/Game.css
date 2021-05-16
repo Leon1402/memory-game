@@ -1,0 +1,12 @@
+.game__field {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.game__timer {
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+
