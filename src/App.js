@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { startTimer, changeName, addResult } from './redux/reduxStore';
 import { Link } from 'react-router-dom';
 import { Results } from './Results/Results';
-import { StopGame } from './Game/Card/StopGame/StopGame';
+import { StopGame } from './StopGame/StopGame';
 
 function App(props) {
   return (

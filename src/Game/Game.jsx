@@ -22,9 +22,9 @@ const Game = ({ field, openCard, timer }) => {
 }
 
 export class GameContainer extends React.Component {
-    ra = getRandomNumbers(35, 0, 18)
+    myField = getRandomNumbers(35, 0, 18)
     state = {
-        field: this.ra.map(item => ({
+        field: this.myField.map(item => ({
             number: item,
             open: false,
             find: false
