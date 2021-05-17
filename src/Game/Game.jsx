@@ -22,20 +22,27 @@ const Game = ({ field, openCard, timer }) => {
 }
 
 export class GameContainer extends React.Component {
-    myField = getRandomNumbers(35, 0, 18)
-    state = {
-        field: this.myField.map(item => ({
-            number: item,
-            open: false,
-            find: false
-        })),
-        turn: 0,
-        openedFirstCardIndex: '',
-        openCardCounter: 0,
+    constructor(props) {
+        super(props);
+
+        this.myField = getRandomNumbers(35, 0, 18);
+
+        this.state = {
+            field: this.myField.map(item => ({
+                number: item,
+                open: false,
+                find: false
+            })),
+            turn: 0,
+            openedFirstCardIndex: '',
+            openCardCounter: 0,
+        }
+        this.timer = '';
+        this.timeoutName = '';
     }
 
     componentDidMount() {
-        console.log(this.props)
+        clearInterval(this.timer)
         this.timer = setInterval(() => {
             this.props.startTimer()
         }, 1000)
@@ -45,14 +52,17 @@ export class GameContainer extends React.Component {
         if (!this.endGame)
             if (this.state.openCardCounter >= 18) {
                 clearInterval(this.timer)
+                clearTimeout(this.timeoutName)
                 this.props.addResult()
                 this.endGame = true
             }
     }
 
     componentWillUnmount() {
+        clearInterval(this.timer)
         clearTimeout(this.timeoutName)
     }
+
 
     timeout = () => {
         clearTimeout(this.timeoutName)
