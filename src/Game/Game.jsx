@@ -25,7 +25,7 @@ export class GameContainer extends React.Component {
     constructor(props) {
         super(props);
 
-        this.myField = getRandomNumbers(35, 0, 18);
+        this.myField = getRandomNumbers(35, 18); //Поле рандомных чисел, 35- количество элементов , 18- количество чисел
 
         this.state = {
             field: this.myField.map(item => ({
@@ -33,15 +33,18 @@ export class GameContainer extends React.Component {
                 open: false,
                 find: false
             })),
-            turn: 0,
-            openedFirstCardIndex: '',
-            openCardCounter: 0,
+
+            turn: 0,        
+
+            openedFirstCardIndex: '',   // запоминает открытую карту на 1 ходе
+            openCardCounter: 0,     // счетчик открытых карт
         }
         this.timer = '';
         this.timeoutName = '';
     }
 
     componentDidMount() {
+        // запускаем таймер для времени
         clearInterval(this.timer)
         this.timer = setInterval(() => {
             this.props.startTimer()
@@ -49,6 +52,7 @@ export class GameContainer extends React.Component {
     }
 
     componentDidUpdate() {
+        // удаляем все таймеры и добавляем результат, если игра окончена
         if (!this.endGame)
             if (this.state.openCardCounter >= 18) {
                 clearInterval(this.timer)
@@ -63,7 +67,7 @@ export class GameContainer extends React.Component {
         clearTimeout(this.timeoutName)
     }
 
-
+    // запускает таймер в 5 секунд, по истечению которого карты закроются
     timeout = () => {
         clearTimeout(this.timeoutName)
         this.timeoutName = setTimeout(() => {
@@ -82,6 +86,7 @@ export class GameContainer extends React.Component {
     openCard = (index) => {
         switch (this.state.turn) {
             case 0:
+                // на первом ходе закрываем все карты и открываем новую
                 clearTimeout(this.timeoutName)
                 this.setState({
                     ...this.state,
@@ -99,6 +104,8 @@ export class GameContainer extends React.Component {
                 this.timeout()
                 break;
             case 1:
+                // на втором ходе открываем карту и, если она совпадает с картой открытой на ходе 1,
+                // отмечаем их выполненными
                 if (this.state.field[index].number === this.state.field[this.state.openedFirstCardIndex].number) {
                     this.setState({
                         ...this.state,

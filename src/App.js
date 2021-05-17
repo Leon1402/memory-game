@@ -15,6 +15,7 @@ function App(props) {
           <Route exact path='/'>
             <StartField name={props.name} changeName={props.changeName} startGame={props.startGame}/>
           </Route>
+
           <Route path='/game'>
             <GameContainer 
               startTimer={props.startTimer} 

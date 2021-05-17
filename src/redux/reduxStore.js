@@ -6,11 +6,11 @@ const ADD_RESULTS = 'ADD_RESULTS';
 const START_GAME = 'START_GAME';
 
 let initialState = {
-  name: '',
-  timer: 0,
-  results: [],
-  isGameStarted: false
-};
+  name: '',     // имя ользователя, вводимое перед игрой
+  timer: 0,     // таймер, подсчитывает время
+  results: [],  // хранит все результаты
+  isGameStarted: false    // импользуется, для того, чтобы при перезагрузке страницы
+};                        // перенаправляло на стартовое окно
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -57,7 +57,6 @@ export const addResult = () => ({
 export const startGame = () => ({
   type: START_GAME
 })
-
 
 let store = createStore(reducer);
 
