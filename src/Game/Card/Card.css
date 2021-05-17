@@ -6,11 +6,17 @@
     width: 15%;
     height: 12vh;
     margin-bottom: 2%;
-    border: 1px solid red;
+    background-image: url(../../res/card.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+
+    transition: opacity .3s ease-out;
+    color: red;
 }
 
 .card_find {
-    background-color: red;
+    opacity: .5;
 }
 
 .card_find .card__item {
@@ -18,7 +24,8 @@
 }
 
 .card__item {
-    font-size: 30px;
+    font-size: 36px;
+    font-weight: bold;
     opacity: 0;
     transition: opacity .3s ease-out;
 }

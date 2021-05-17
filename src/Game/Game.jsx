@@ -35,29 +35,34 @@ export class GameContainer extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
         this.timer = setInterval(() => {
             this.props.startTimer()
         }, 1000)
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timer)
-        this.props.addResult()
+    componentDidUpdate() {
+        if (!this.endGame)
+            if (this.state.openCardCounter >= 18) {
+                clearInterval(this.timer)
+                this.props.addResult()
+                this.endGame = true
+            }
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.timeoutName)
+    }
 
-    timeout = (index) => {
+    timeout = () => {
         clearTimeout(this.timeoutName)
         this.timeoutName = setTimeout(() => {
             this.setState({
                 ...this.state,
                 field: this.state.field.map((item, i) => {
-                    if (index === i) {
-                        return {
-                            ...item, open: false
-                        }
+                    return {
+                        ...item, open: false
                     }
-                    return item;
                 }),
                 turn: 0,
             })
@@ -67,7 +72,7 @@ export class GameContainer extends React.Component {
     openCard = (index) => {
         switch (this.state.turn) {
             case 0:
-                clearTimeout(this.timer2)
+                clearTimeout(this.timeoutName)
                 this.setState({
                     ...this.state,
                     field: this.state.field.map((item, i) => {
@@ -76,12 +81,12 @@ export class GameContainer extends React.Component {
                                 ...item, open: true
                             }
                         }
-                        return {...item, open: false};
+                        return { ...item, open: false };
                     }),
                     turn: 1,
                     openedFirstCardIndex: index
                 })
-                this.timeout(index)
+                this.timeout()
                 break;
             case 1:
                 if (this.state.field[index].number === this.state.field[this.state.openedFirstCardIndex].number) {
@@ -111,20 +116,7 @@ export class GameContainer extends React.Component {
                         }),
                         turn: 0
                     })
-                    clearTimeout(this.timer2)
-                    this.timer2 = setTimeout(() => {
-                        this.setState({
-                            ...this.state,
-                            field: this.state.field.map((item, i) => {
-                                return {
-                                    ...item,
-                                    open: false
-                                }
-                            }),
-                            turn: 0
-                        })
-                    }, 5000)
-
+                    this.timeout()
                 }
                 break
             default:
@@ -133,7 +125,9 @@ export class GameContainer extends React.Component {
     }
 
     render() {
-        return this.state.openCardCounter >= 18
+        return  !this.props.isGameStarted
+        ? <Redirect to='/' />
+        : this.endGame
             ? <Redirect to='/stop' />
             : <Game field={this.state.field} openCard={this.openCard} timer={this.props.timer} />
     }

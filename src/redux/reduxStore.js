@@ -3,11 +3,13 @@ import { createStore } from 'redux';
 const CHANGE_NAME = 'CHANGE_NAME';
 const START_TIMER = 'START_TIMER';
 const ADD_RESULTS = 'ADD_RESULTS';
+const START_GAME = 'START_GAME';
 
 let initialState = {
   name: '',
   timer: 0,
-  results: [{name: 1, result: 123}]
+  results: [],
+  isGameStarted: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +23,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         timer: state.timer + 1
+      }
+    case START_GAME: 
+      return {
+        ...state,
+        isGameStarted: true
       }
     case ADD_RESULTS:
       return {
@@ -43,11 +50,15 @@ export const changeName = (name) => {
   }
 }
 
-  export const addResult = () => ({
-    type: ADD_RESULTS,
-  })
+export const addResult = () => ({
+  type: ADD_RESULTS,
+})
+
+export const startGame = () => ({
+  type: START_GAME
+})
 
 
-  let store = createStore(reducer);
+let store = createStore(reducer);
 
-  export default store;
+export default store;

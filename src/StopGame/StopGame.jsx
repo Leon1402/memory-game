@@ -10,6 +10,7 @@ export const StopGame = (props) => {
          </div>
         <div className='stop-game__result'>Ваш Результат: {getTime(props.timer)}</div>
       <Link to='/results' className='stop-game__link'>Результаты</Link>
+      <Link to='/' className='stop-game__link'>Главная</Link>
       </div>
     )
 }
